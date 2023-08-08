@@ -1,3 +1,4 @@
+@login
 Feature: login
 
     Scenario: realizar el login con usuario y contrasena valida

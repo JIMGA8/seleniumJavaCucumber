@@ -1,8 +1,11 @@
 package seleniumjavacucumber.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
@@ -40,13 +43,13 @@ public class BasePage {
     }
 
     // funcion para obtener el titulo de una pagina
-    public void getTitle() {
-        driver.getTitle();
+    public String getTitle() {
+        return driver.getTitle();
     }
 
     // funcion para obtener la url
-    public void getUrl() {
-        driver.getCurrentUrl();
+    public String getUrl() {
+        return driver.getCurrentUrl();
     }
 
     // funcion para cerrar una ventana
@@ -57,6 +60,23 @@ public class BasePage {
     // funcion para cerrar el Driver
     public static void driverQuit() {
         driver.quit();
+    }
+
+    private WebElement find(String locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+    }
+
+    public void clickElement(String locator) {
+        find(locator).click();
+    }
+
+    public void write(String locator, String textToWrite) {
+        find(locator).clear();
+        find(locator).sendKeys(textToWrite);
+    }
+
+    public String textFromElement(String locator) {
+        return find(locator).getText();
     }
 
 }
