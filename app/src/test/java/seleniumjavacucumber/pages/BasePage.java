@@ -1,6 +1,10 @@
 package seleniumjavacucumber.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -77,6 +81,91 @@ public class BasePage {
 
     public String textFromElement(String locator) {
         return find(locator).getText();
+    }
+
+    // funcion para abri un link que abre en otra pestañas
+    public void hadlesTabs(String locator) {
+        String originalWindow = driver.getWindowHandle();
+
+        assert driver.getWindowHandles().size() == 1;
+
+        clickElement(locator);
+
+        for (String windowHandle : driver.getWindowHandles()) {
+            if (!originalWindow.contentEquals(windowHandle)) {
+                driver.switchTo().window(windowHandle);
+                break;
+            }
+        }
+    }
+
+    public static void cambiarVentana(int pantalla) {
+        try {
+            ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(pantalla));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    // funcion para ir a linktext
+    public void goToLinkText(String linkText) {
+        driver.findElement(By.linkText(linkText)).click();
+    }
+
+    // Funcion para validar que un elemento es mostrado en la pagina
+    public boolean elementIsDisplayed(String locator) {
+        try {
+            return find(locator).isDisplayed();
+        } catch (org.openqa.selenium.StaleElementReferenceException j) {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+            return find(locator).isDisplayed();
+        } catch (TimeoutException x) {
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // funcion para validad que un elemento esta habilitado
+    public boolean elementIsEnabled(String locator) {
+        return find(locator).isEnabled();
+    }
+
+    // funcion para validad que un elemento esta selecionado
+    public boolean elementIsSelected(String locator) {
+        return find(locator).isSelected();
+    }
+
+    // funcion que me devuelve una lista con los elementos web localizados segun su
+    // xpath
+    public List<WebElement> bringMeAElementsByXpath(String locator) {
+        return driver.findElements(By.xpath(locator));
+    }
+
+    // obtener una lista de string de una list de Web elements
+    public List<String> convertWebElementListToStringList(List<WebElement> webElements) {
+        return webElements.stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+    }
+
+    // funcion que seleciona un criterio de una lista
+    public void selectCriteriaFromList(String locator, String criteria) {
+        List<WebElement> list = bringMeAElementsByXpath(locator);
+        for (WebElement element : list) {
+            if (element.getText().equals(criteria)) {
+                element.click();
+                break;
+            }
+        }
+    }
+
+    public String obtenerValueElemento(String locator) {
+        WebElement campoDeTexto = driver.findElement(By.xpath(locator));
+        String valor = campoDeTexto.getAttribute("value");
+        return valor;
     }
 
 }

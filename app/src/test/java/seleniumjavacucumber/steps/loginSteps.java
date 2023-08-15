@@ -26,4 +26,14 @@ public class loginSteps {
         Assert.assertEquals("el texto no es igual", "Swag Labs", login.validarLogin());
     }
 
+    @And("^cierro sesion$")
+    public void logout() {
+        login.logout();
+    }
+
+    @Then("^validar el cierre de sesion$")
+    public void validarLogout() {
+        Assert.assertTrue("no se realizo el logout", login.validarLogout());
+    }
+
 }
