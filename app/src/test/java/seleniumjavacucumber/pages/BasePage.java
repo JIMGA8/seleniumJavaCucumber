@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BasePage {
 
@@ -18,8 +19,7 @@ public class BasePage {
     protected static WebDriverWait wait;
 
     static {
-        System.setProperty("webdriver.chrome.driver",
-                "C://Users//GOIAR//Documents//seleniumJavaCucumber//driver//chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--incognito");
         driver = new ChromeDriver(chromeOptions);

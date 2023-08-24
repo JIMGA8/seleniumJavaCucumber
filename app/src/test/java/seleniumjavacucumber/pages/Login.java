@@ -8,6 +8,7 @@ public class Login extends BasePage {
     private String tagSwagLabs = "//div[@class='app_logo']";
     private String btnMenu = "//button[@id='react-burger-menu-btn']";
     private String btnLogout = "//a[@id='logout_sidebar_link']";
+    private String mensajeError = "//h3[@data-test='error']";
 
     public Login() {
         super(driver);
@@ -32,4 +33,7 @@ public class Login extends BasePage {
         return elementIsDisplayed(btnLogin);
     }
 
+    public String getTextMensajeError() {
+        return textFromElement(mensajeError);
+    }
 }

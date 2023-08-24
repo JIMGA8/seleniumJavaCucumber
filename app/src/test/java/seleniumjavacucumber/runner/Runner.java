@@ -8,7 +8,7 @@ import seleniumjavacucumber.pages.BasePage;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources/features", glue = "seleniumjavacucumber/steps", plugin = { "pretty",
-        "html:target/cucumber-reports/reports.html" }, tags = "@login")
+        "html:target/cucumber-reports/reports.html" }, tags = "@validarlogin")
 
 public class Runner {
     @AfterClass

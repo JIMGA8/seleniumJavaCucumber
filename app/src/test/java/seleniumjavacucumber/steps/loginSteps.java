@@ -16,7 +16,7 @@ public class loginSteps {
 
     }
 
-    @When("^ingreso el usuario (.+) y la contrasena (.+)$")
+    @When("^ingreso el usuario (.*) y la contrasena (.*)$")
     public void login(String usuario, String contrasena) {
         login.login(usuario, contrasena);
     }
@@ -34,6 +34,11 @@ public class loginSteps {
     @Then("^validar el cierre de sesion$")
     public void validarLogout() {
         Assert.assertTrue("no se realizo el logout", login.validarLogout());
+    }
+
+    @Then("valido el mensaje de (.+)$")
+    public void validarMensajeDeError(String mensaje) {
+        Assert.assertEquals("el mensaje no es igual", mensaje, login.getTextMensajeError());
     }
 
 }
